@@ -1,0 +1,21 @@
+{
+  "name": "hudlejobs-backend",
+  "version": "1.0.0",
+  "description": "this is a job portal",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "jobs",
+    "findjobs"
+  ],
+  "author": "shubham",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22"
+  }
+}
