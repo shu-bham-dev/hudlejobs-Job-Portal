@@ -1,18 +1,19 @@
 const express = require("express");
+const db = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
+
 const app = express();
 const port = 4000;
 
-var config = {
-  server: "DESKTOP-L1MM28BSQLEXPRESS",
-  database: "hudlejobs",
-  driver: "msnodesqlv8",
-  options: {
-    trustedConnection: true,
-  },
-};
+db.connect((err) => {
+  if (err) throw new Error(err);
+  console.log("connected");
+});
 
 app.listen(port, () => {
   console.log(`Running on ${port}`);
 });
 
-app.use("/user", require("./routes/user"));
+app.use(express.json());
+app.use("/user", require("./routes/userRoutes"));
+app.use("/api/auth", authRoutes);
