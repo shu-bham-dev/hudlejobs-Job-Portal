@@ -4,9 +4,9 @@
   "description": "this is a job portal",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server.js"
   },
   "keywords": [
     "jobs",
@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
     "nodemon": "^2.0.22"
   }
 }
