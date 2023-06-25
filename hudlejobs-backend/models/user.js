@@ -32,6 +32,7 @@ const User = {
     });
   },
   findById: (userId) => {
+    console.log("get", userId);
     return new Promise((resolve, reject) => {
       db.query(
         "SELECT * FROM users WHERE id = ?",

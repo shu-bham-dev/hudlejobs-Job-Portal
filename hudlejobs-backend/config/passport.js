@@ -1,43 +1,31 @@
-const LocalStrategy = require("passport-local").Strategy;
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 const User = require("../models/user");
+const opts = {};
 
 exports.initializePassport = (passport) => {
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser(async (id, done) => {
-    try {
-      const user = await User.findById(id);
-      done(null, user);
-    } catch (error) {
-      done(error);
-    }
-  });
-
+  opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+  opts.secretOrKey = "SECRETJWT";
   passport.use(
-    new LocalStrategy(
-      {
-        usernameField: "email",
-      },
-      async (email, password, done) => {
-        try {
-          const user = await User.findByEmail(email);
-          if (!user) {
-            return done(null, false, { message: "Invalid credentials" });
-          }
+    new JwtStrategy(opts, async (jwt_payload, done) => {
+      try {
+        const user = await User.findByEmail(jwt_payload.user.email);
+        if (user) {
           return done(null, user);
-        } catch (error) {
-          console.log(error);
-          return done(error);
+        } else {
+          return done(null, false);
         }
+      } catch (error) {
+        return done(error, false);
       }
-    )
+    })
   );
 };
 
 exports.isAuthenticated = (req, res, next) => {
-  if (req.user) return next();
+  if (req.user) {
+    return next();
+  }
   res.status(401);
   throw new Error("Unauthorized User");
 };

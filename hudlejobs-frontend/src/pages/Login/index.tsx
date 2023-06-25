@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { login } from "../../queries/auth";
+import useAuth from "../../hooks/useAuth";
 
 // Define validation schema using Yup
 const validationSchema = yup.object().shape({
@@ -30,7 +30,7 @@ const Login: React.FC = () => {
     resolver: yupResolver(validationSchema),
   });
   const navigate = useNavigate();
-
+  const { login } = useAuth();
   const loginMutation = useMutation(
     (formData: LoginFormValues) => login(formData),
     {
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
         console.log(err.message);
       },
       onSuccess: (res: any) => {
-        navigate("/jobs");
+        navigate("/alljobs");
       },
     }
   );
