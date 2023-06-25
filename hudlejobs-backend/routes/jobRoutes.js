@@ -27,4 +27,10 @@ router.delete(
   jobController.deleteJob
 ); //Delete job by id
 
+router.post(
+  "/:jobId/apply",
+  passport.authenticate("jwt", { session: false }),
+  jobController.applyForJob
+); //Apply Job
+
 module.exports = router;

@@ -1,3 +1,4 @@
+const db = require("../config/db");
 const Job = require("../models/job");
 
 exports.createJob = async (req, res) => {
@@ -65,5 +66,31 @@ exports.deleteJob = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch jobs" });
+  }
+};
+
+exports.applyForJob = async (req, res) => {
+  const jobId = req.params.jobId;
+  const userId = req.user.id;
+  console.log(jobId, userId);
+
+  try {
+    // Check if the job exists
+    const jobQuery = "SELECT * FROM jobs WHERE id = ?";
+    const jobRows = await db.query(jobQuery, [jobId]);
+
+    if (jobRows.length === 0) {
+      res.status(404);
+      throw new Error("Job not found");
+    }
+
+    // Apply for the job
+    const applyQuery =
+      "INSERT INTO job_applications (user_id, job_id) VALUES (?, ?)";
+    await db.query(applyQuery, [userId, jobId]);
+
+    res.json({ message: "Job application successful" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

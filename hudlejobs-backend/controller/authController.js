@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const db = require("../config/db");
 
 exports.register = async (req, res) => {
   const { name, email, phone, password, skills, role } = req.body;
@@ -69,4 +70,27 @@ exports.login = async (req, res) => {
 exports.getCurrentUser = (req, res) => {
   const { user } = req;
   res.json({ user });
+};
+
+exports.getAppliedJobs = async (req, res) => {
+  const userId = req.user.id;
+  console.log(userId);
+  try {
+    const query =
+      "SELECT * FROM jobs WHERE id IN (SELECT job_id FROM job_applications WHERE user_id = ?)";
+    const [rows] = await db.query(query, [userId]);
+    console.log("rows", rows);
+    const appliedJobs = rows.map((row) => ({
+      id: row.id,
+      positionName: row.positionName,
+      description: row.description,
+    }));
+
+    console.log(appliedJobs);
+
+    res.json(appliedJobs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
 };

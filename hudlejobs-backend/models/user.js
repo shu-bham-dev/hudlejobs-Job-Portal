@@ -47,11 +47,6 @@ const User = {
       );
     });
   },
-  comparePassword: (password, hashedPassword) => {
-    // Implement your password comparison logic here
-    // Return true if the passwords match, false otherwise
-    // You can use libraries like bcrypt for secure password hashing and comparison
-  },
 };
 
 module.exports = User;
