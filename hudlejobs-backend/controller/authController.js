@@ -3,8 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => {
-  console.log(req.body);
-  const { name, email, phone, password, skills } = req.body;
+  const { name, email, phone, password, skills, role } = req.body;
   if (!name || !email || !password || !phone) {
     res.status(404);
     throw new Error("All fields are mandatory");
@@ -16,12 +15,14 @@ exports.register = async (req, res) => {
       throw new Error("User already exist");
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+    const userRole = role || "CANDIDATE";
     const userId = await User.create({
       name,
       email,
       phone,
       password: hashedPassword,
       skills,
+      role: userRole,
     });
     res.json({ userId });
   } catch (error) {
