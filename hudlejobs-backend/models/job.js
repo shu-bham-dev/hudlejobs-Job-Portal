@@ -49,6 +49,28 @@ const Job = {
       );
     });
   },
+  find: () => {
+    return new Promise((resolve, reject) => {
+      db.query("SELECT * FROM jobs", (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+  },
+  deleteById: (jobId) => {
+    return new Promise((resolve, reject) => {
+      db.query("DELETE FROM jobs WHERE id = ?", [jobId], (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result.affectedRows);
+        }
+      });
+    });
+  },
 };
 
 module.exports = Job;
