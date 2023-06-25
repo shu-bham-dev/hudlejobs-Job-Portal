@@ -60,8 +60,6 @@ const Register: React.FC = () => {
     Object.assign(data, { skills: skills });
     console.log(data);
     registerMutation.mutate(data);
-    // Make API call or perform registration logic
-    // Once completed, you can redirect the user to the desired page
   };
 
   const handleAddSkill = (event: React.KeyboardEvent<HTMLInputElement>) => {

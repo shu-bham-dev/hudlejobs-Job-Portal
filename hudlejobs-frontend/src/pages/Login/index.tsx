@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
+import useRole from "../../hooks/useRole";
 
 // Define validation schema using Yup
 const validationSchema = yup.object().shape({
@@ -30,6 +31,7 @@ const Login: React.FC = () => {
     resolver: yupResolver(validationSchema),
   });
   const navigate = useNavigate();
+  const { isCandidate } = useRole();
   const { login } = useAuth();
   const loginMutation = useMutation(
     (formData: LoginFormValues) => login(formData),
@@ -38,7 +40,11 @@ const Login: React.FC = () => {
         console.log(err.message);
       },
       onSuccess: (res: any) => {
-        navigate("/alljobs");
+        if (isCandidate) {
+          navigate("/all-job");
+        } else {
+          navigate("/posted-job");
+        }
       },
     }
   );

@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import JobCard from "./component/JobCard";
-import { useAllJobs } from "../../queries/jobs";
+import { useAdminPostedJob, useAllJobs } from "../../queries/jobs";
 import AppShell from "../../components/AppShell";
 
-const AllJobs: React.FC = () => {
-  const { data } = useAllJobs({});
+const PostedJob: React.FC = () => {
+  const { data } = useAdminPostedJob({});
 
   return (
     <AppShell>
@@ -28,4 +28,4 @@ const AllJobs: React.FC = () => {
   );
 };
 
-export default AllJobs;
+export default PostedJob;

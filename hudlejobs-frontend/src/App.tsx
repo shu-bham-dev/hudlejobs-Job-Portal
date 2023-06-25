@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AllJobs from "./pages/Jobs/allJobs";
 import AuthProvider from "./context/AuthContext";
+import PostedJob from "./pages/Jobs/postedjobs";
+import CreateJob from "./pages/CreateJob";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +26,9 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/alljobs" element={<AllJobs />} />
+            <Route path="/all-job" element={<AllJobs />} />
+            <Route path="/posted-job" element={<PostedJob />} />
+            <Route path="/create-job" element={<CreateJob />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
