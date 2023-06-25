@@ -47,6 +47,32 @@ const User = {
       );
     });
   },
+  findAppliedJobById: (userId) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT * FROM job_applications WHERE user_id = ?",
+        [userId],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            const jobIds = results.map((job) => job.job_id);
+            db.query(
+              "SELECT * FROM jobs WHERE id IN (?)",
+              [jobIds],
+              (error, results) => {
+                if (error) {
+                  reject(error);
+                } else {
+                  resolve(results);
+                }
+              }
+            );
+          }
+        }
+      );
+    });
+  },
 };
 
 module.exports = User;

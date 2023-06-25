@@ -72,7 +72,6 @@ exports.deleteJob = async (req, res) => {
 exports.applyForJob = async (req, res) => {
   const jobId = req.params.jobId;
   const userId = req.user.id;
-  console.log(jobId, userId);
 
   try {
     // Check if the job exists

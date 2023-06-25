@@ -74,23 +74,11 @@ exports.getCurrentUser = (req, res) => {
 
 exports.getAppliedJobs = async (req, res) => {
   const userId = req.user.id;
-  console.log(userId);
+
   try {
-    const query =
-      "SELECT * FROM jobs WHERE id IN (SELECT job_id FROM job_applications WHERE user_id = ?)";
-    const [rows] = await db.query(query, [userId]);
-    console.log("rows", rows);
-    const appliedJobs = rows.map((row) => ({
-      id: row.id,
-      positionName: row.positionName,
-      description: row.description,
-    }));
-
-    console.log(appliedJobs);
-
-    res.json(appliedJobs);
+    const jobs = await User.findAppliedJobById(userId);
+    res.json({ jobs });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: error.message });
   }
 };
