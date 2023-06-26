@@ -131,6 +131,21 @@ const Job = {
       });
     });
   },
+  checkDuplicate: (jobId, userId) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT user_id, job_id, COUNT(*) AS count FROM job_applications WHERE user_id = ? AND job_id = ? GROUP BY user_id, job_id HAVING count > 0",
+        [userId, jobId],
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result[0]);
+          }
+        }
+      );
+    });
+  },
 };
 
 module.exports = Job;

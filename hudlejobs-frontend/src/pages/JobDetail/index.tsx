@@ -9,9 +9,18 @@ import { ToastContainer } from "react-toastify";
 const JobDetail = () => {
   const { jobId = "" } = useParams();
   const [skillset, setSkillset] = useState([]);
+  const [showskill, setShowskill] = useState(false);
   const { data: JobById } = useJobById(jobId);
+
   useEffect(() => {
-    setSkillset(JSON.parse(JobById?.skills));
+    if (JobById?.skills) {
+      try {
+        setSkillset(JSON.parse(JobById.skills));
+        setShowskill(true);
+      } catch (error) {
+        console.error("Failed to parse skills JSON:", error);
+      }
+    }
   }, [JobById]);
 
   const { isCandidate } = useRole();
@@ -23,7 +32,11 @@ const JobDetail = () => {
       toast.success("Job applied");
     }
   };
-  const deleteJob = () => {};
+  const deleteJob = async () => {
+    const del = await deleteJobById(+jobId);
+    toast.success("Deleted Succesfully");
+    navigate("/posted-job");
+  };
 
   return (
     <AppShell>
@@ -34,7 +47,7 @@ const JobDetail = () => {
           <p className="text-gray-400 mb-2">
             Experience: {JobById?.experience} years
           </p>
-          <p className="text-gray-400 mb-2">CTC: ${JobById?.ctc}</p>
+          <p className="text-gray-400 mb-2">CTC: {JobById?.ctc} INR</p>
           <p className="text-gray-400 mb-2">
             Created Date: {JobById?.createdDate}
           </p>
@@ -43,9 +56,10 @@ const JobDetail = () => {
           <div className="mt-4">
             <h3 className="text-lg font-semibold mb-2">Skills:</h3>
             <ul className="list-disc pl-6">
-              {skillset.map((skill: string, index: number) => (
-                <li key={index}>{skill}</li>
-              ))}
+              {showskill &&
+                skillset.map((skill: string, index: number) => (
+                  <li key={index}>{skill}</li>
+                ))}
             </ul>
           </div>
           {isCandidate ? (

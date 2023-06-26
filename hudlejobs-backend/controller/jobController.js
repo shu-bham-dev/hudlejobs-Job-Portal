@@ -117,6 +117,11 @@ exports.applyForJob = async (req, res) => {
   const userId = req.user.id;
 
   try {
+    const checkRepeat = await Job.checkDuplicate(jobId, userId);
+    if (checkRepeat?.count > 0) {
+      return res.json({ message: "Not allowed" });
+    }
+
     const jobQuery = "SELECT * FROM jobs WHERE id = ?";
     const jobRows = await db.query(jobQuery, [jobId]);
 

@@ -25,6 +25,8 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
     const res = await applyJobById(job.id);
     if (res.message === "Job application successful") {
       toast.success("Applied Successfull");
+    } else {
+      toast.error("You can not apply more than once");
     }
   };
   const navigate = useNavigate();
@@ -54,6 +56,18 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
           View Detail
         </button>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };
