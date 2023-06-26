@@ -56,6 +56,9 @@ const Login: React.FC = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-gray-900">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
+        <div className="text-center text-xl text-white mb-10">
+          Welcome to Hudle Jobs
+        </div>
         <h2 className="text-2xl font-semibold text-gray-200 mb-4">Login</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
