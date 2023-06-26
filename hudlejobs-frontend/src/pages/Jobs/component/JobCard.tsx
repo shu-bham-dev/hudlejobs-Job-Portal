@@ -2,6 +2,7 @@ import React from "react";
 import { applyJobById } from "../../../queries/jobs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 interface Job {
   id: number;
@@ -26,16 +27,17 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
       toast.success("Applied Successfull");
     }
   };
+  const navigate = useNavigate();
   return (
     <div className="bg-gray-800 rounded-lg p-6 mt-4">
       <h2 className="text-xl text-white font-semibold mb-2">
-        {job.positionName}
+        {job?.positionName}
       </h2>
-      <p className="text-gray-300 text-sm mb-4">{job.description}</p>
+      <p className="text-gray-300 text-sm mb-4">{job?.description}</p>
       <div className="flex justify-between items-center">
-        <p className="text-gray-400 text-sm">{job.companyName}</p>
+        <p className="text-gray-400 text-sm">{job?.companyName}</p>
         <p className="text-gray-400 text-sm">
-          Experience: {job.experience} years
+          Experience: {job?.experience} years
         </p>
       </div>
       <div className="flex justify-between items-center mt-4">
@@ -45,22 +47,13 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
         >
           Apply
         </button>
-        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+          onClick={() => navigate(`/job-detail/${job?.id}`)}
+        >
           View Detail
         </button>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </div>
   );
 };

@@ -89,24 +89,11 @@ const calculateMatchScore = (userSkills, jobSkills) => {
   const userArray = JSON.parse(userSkills);
   const jobArray = JSON.parse(jobSkills);
   for (const userSkill of userArray) {
-    console.log(jobArray, "---", userSkill);
     if (jobArray.includes(userSkill)) {
       matchScore++;
     }
   }
-  console.log(matchScore);
   return matchScore;
-};
-
-exports.getMatchesJob = async (req, res) => {
-  try {
-    console.log(req.user.id);
-    const jobs = await Job.findByMatches(req.user.id);
-    res.json({ jobs });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch jobs" });
-  }
 };
 
 exports.deleteJob = async (req, res) => {
@@ -145,5 +132,19 @@ exports.applyForJob = async (req, res) => {
     res.json({ message: "Job application successful" });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getJobById = async (req, res) => {
+  const jobId = req.params.jobId;
+  try {
+    const job = await Job.findJobById(jobId);
+    if (job) {
+      res.status(200).json(job);
+    } else {
+      res.status(500).json({ message: "No job found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch job" });
   }
 };

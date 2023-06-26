@@ -41,3 +41,20 @@ export const applyJobById = async (jobId: number) => {
   const { data } = await apiService.post(`/api/jobs/${jobId}/apply`);
   return data;
 };
+
+export const useJobById = (jobid: any, enable = true) => {
+  return useQuery(["jobById", jobid], () => getJobById(jobid), {
+    staleTime: 60 * 60 * 1000,
+    enabled: enable,
+  });
+};
+
+export const getJobById = async (jobId: any) => {
+  const { data } = await apiService.post(`/api/jobs/${jobId}`);
+  return data;
+};
+
+export const deleteJobById = async (jobId: number) => {
+  const data = await apiService.delete(`api/jobs/${jobId}`);
+  return data;
+};

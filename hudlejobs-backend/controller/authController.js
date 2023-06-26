@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
             },
           },
           "SECRETJWT",
-          { expiresIn: "1h" }
+          { expiresIn: "1d" }
         );
         res.status(200).json({ user, accessToken: token });
       } else {
