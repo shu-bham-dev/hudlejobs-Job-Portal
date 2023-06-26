@@ -3,8 +3,8 @@ import { applyJobById, deleteJobById, useJobById } from "../../queries/jobs";
 import { useNavigate, useParams } from "react-router-dom";
 import AppShell from "../../components/AppShell";
 import useRole from "../../hooks/useRole";
-import { toast } from "react-hot-toast";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 
 const JobDetail = () => {
   const { jobId = "" } = useParams();
@@ -32,9 +32,11 @@ const JobDetail = () => {
       toast.success("Job applied");
     }
   };
+  const queryClient = useQueryClient();
   const deleteJob = async () => {
     const del = await deleteJobById(+jobId);
     toast.success("Deleted Succesfully");
+    queryClient.invalidateQueries(["allAdminJobs"]);
     navigate("/posted-job");
   };
 

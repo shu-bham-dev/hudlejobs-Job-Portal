@@ -146,6 +146,36 @@ const Job = {
       );
     });
   },
+  getJobApplications: (jobId) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT ja.*, u.* FROM job_applications ja INNER JOIN users u ON ja.user_id = u.id WHERE ja.job_id = ?",
+        [jobId],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+        }
+      );
+    });
+  },
+  updateApplicationStatus: (jobId, userId, status) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "UPDATE job_applications SET status = ? WHERE job_id = ? AND user_id = ?",
+        [status, jobId, userId],
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result.affectedRows);
+          }
+        }
+      );
+    });
+  },
 };
 
 module.exports = Job;

@@ -10,6 +10,7 @@ import PostedJob from "./pages/Jobs/postedjobs";
 import CreateJob from "./pages/CreateJob";
 import AppliedJobs from "./pages/Jobs/appliedJobs";
 import JobDetail from "./pages/JobDetail";
+import AllApplicant from "./pages/AllApplicant";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/create-job" element={<CreateJob />} />
             <Route path="/applied-job" element={<AppliedJobs />} />
             <Route path="/job-detail/:jobId" element={<JobDetail />} />
+            <Route path="/all-applicant/:jobId" element={<AllApplicant />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

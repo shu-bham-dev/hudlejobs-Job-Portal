@@ -3,6 +3,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useState } from "react";
 import AppShell from "../../components/AppShell";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createJob } from "../../queries/jobs";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup.object().shape({
   positionName: yup.string().required("Position Name is required").max(30),
@@ -10,7 +13,7 @@ const schema = yup.object().shape({
   experience: yup.number().required("Experience is required"),
   companyName: yup.string().required("Company Name is required"),
   ctc: yup.number().required("CTC is required"),
-  skills: yup.array().required("Skills are required"),
+  skills: yup.array().min(1, "At least one skill is required"),
 });
 
 const CreateJob: React.FC = () => {
@@ -22,10 +25,24 @@ const CreateJob: React.FC = () => {
     resolver: yupResolver(schema),
   });
   const [skills, setSkills] = useState<string[]>([]);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
+  const jobCreateMutation = useMutation(
+    (formData: any) => createJob(formData),
+    {
+      onError: (err: any) => {
+        console.log(err.message);
+      },
+      onSuccess: (res: any) => {
+        queryClient.invalidateQueries(["allAdminJobs"]);
+        navigate("/posted-job");
+      },
+    }
+  );
   const onSubmit = (data: any) => {
-    // Submit the job post data to the API
-    console.log(data);
+    Object.assign(data, { skills: skills });
+    jobCreateMutation.mutate(data);
   };
 
   const handleAddSkill = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -46,7 +63,7 @@ const CreateJob: React.FC = () => {
   return (
     <AppShell>
       <div className="flex justify-center items-center h-screen bg-gray-900">
-        <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-96 text-white">
+        <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-1/2 text-white">
           <h2 className="text-2xl font-semibold mb-6">Create Job Post</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>

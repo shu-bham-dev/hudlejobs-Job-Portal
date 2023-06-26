@@ -153,3 +153,32 @@ exports.getJobById = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch job" });
   }
 };
+
+exports.getJobApplications = async (req, res) => {
+  const jobId = req.params.jobId;
+
+  try {
+    const applications = await Job.getJobApplications(jobId);
+    res.json({ applications });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch job applications" });
+  }
+};
+
+exports.updateApplicationStatus = async (req, res) => {
+  const { status, jobId, userId } = req.body;
+  console.log(status);
+
+  try {
+    const updatedRows = await Job.updateApplicationStatus(
+      jobId,
+      userId,
+      status
+    );
+    res.json({ updatedRows });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to update application status" });
+  }
+};

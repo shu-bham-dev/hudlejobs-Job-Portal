@@ -4,8 +4,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { signup } from "../../queries/auth";
-import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Define validation schema using Yup
 const validationSchema = yup.object().shape({
@@ -50,7 +50,6 @@ const Register: React.FC = () => {
         console.log(err);
       },
       onSuccess: (res: any) => {
-        console.log(res);
         toast.success("Register Successfull");
         navigate("/login");
       },

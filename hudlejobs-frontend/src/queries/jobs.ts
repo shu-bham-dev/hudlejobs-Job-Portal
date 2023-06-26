@@ -3,7 +3,7 @@ import apiService from "../utils/apiService";
 
 export const useAllJobs = (q: Record<string, any>, enable = true) => {
   return useQuery(["allJobs", q], () => getAllJobs(q), {
-    staleTime: 60 * 60 * 100,
+    staleTime: 60 * 60 * 1000,
     enabled: enable,
   });
 };
@@ -15,7 +15,7 @@ const getAllJobs = async (q: Record<string, any>) => {
 
 export const useAdminPostedJob = (q: Record<string, any>, enable = true) => {
   return useQuery(["allAdminJobs", q], () => getAdminPostedJob(q), {
-    staleTime: 60 * 60 * 100,
+    staleTime: 60 * 60 * 1000,
     enabled: enable,
   });
 };
@@ -55,6 +55,32 @@ export const getJobById = async (jobId: any) => {
 };
 
 export const deleteJobById = async (jobId: number) => {
-  const data = await apiService.delete(`api/jobs/${jobId}`);
+  const { data } = await apiService.delete(`/api/jobs/${jobId}`);
+  return data;
+};
+
+export const useApplicantById = (jobid: any, enable = true) => {
+  return useQuery(["applicantById", jobid], () => getApplicantByID(jobid), {
+    staleTime: 60 * 60 * 1000,
+    enabled: enable,
+  });
+};
+
+export const getApplicantByID = async (jobId: number) => {
+  const { data } = await apiService.get(`/api/jobs/${jobId}/applications`);
+  return data?.applications;
+};
+
+export const changeStatusofApplicant = async (payload: Record<string, any>) => {
+  const { data } = await apiService.put(
+    "/api/jobs/applications/status",
+    payload
+  );
+
+  return data;
+};
+
+export const createJob = async (payload: Record<string, any>) => {
+  const { data } = await apiService.post("/api/jobs", payload);
   return data;
 };

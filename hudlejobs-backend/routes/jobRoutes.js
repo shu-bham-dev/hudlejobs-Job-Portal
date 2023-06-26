@@ -39,4 +39,16 @@ router.post(
   jobController.getJobById
 );
 
+router.get(
+  "/:jobId/applications",
+  passport.authenticate("jwt", { session: false }),
+  jobController.getJobApplications
+);
+
+router.put(
+  "/applications/status",
+  passport.authenticate("jwt", { session: false }),
+  jobController.updateApplicationStatus
+);
+
 module.exports = router;
