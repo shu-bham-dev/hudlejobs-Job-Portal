@@ -1,4 +1,7 @@
 import React from "react";
+import { applyJobById } from "../../../queries/jobs";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Job {
   id: number;
@@ -17,8 +20,14 @@ interface JobCardProps {
 }
 
 const JobCard: React.FC<JobCardProps> = ({ job }) => {
+  const applyJob = async () => {
+    const res = await applyJobById(job.id);
+    if (res.message === "Job application successful") {
+      toast.success("Applied Successfull");
+    }
+  };
   return (
-    <div className="bg-gray-800 rounded-lg p-6">
+    <div className="bg-gray-800 rounded-lg p-6 mt-4">
       <h2 className="text-xl text-white font-semibold mb-2">
         {job.positionName}
       </h2>
@@ -30,13 +39,28 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
         </p>
       </div>
       <div className="flex justify-between items-center mt-4">
-        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+        <button
+          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+          onClick={applyJob}
+        >
           Apply
         </button>
         <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
           View Detail
         </button>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

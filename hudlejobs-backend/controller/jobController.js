@@ -44,8 +44,41 @@ exports.getJobsByRecruiter = async (req, res) => {
 };
 
 exports.getAllJobs = async (req, res) => {
+  const searchQuery = req.query.search;
+  const experienceQuery = req.query.exp;
+
   try {
-    const jobs = await Job.find();
+    let jobs;
+    if (searchQuery && experienceQuery) {
+      const searchPattern = `%${searchQuery}%`;
+      const minExperience = parseInt(experienceQuery);
+      const maxExperience = minExperience + 1;
+      jobs = await Job.findByPositionNameAndExperience(
+        searchPattern,
+        minExperience,
+        maxExperience
+      );
+    } else if (experienceQuery) {
+      const minExperience = parseInt(experienceQuery);
+      const maxExperience = minExperience + 1;
+      jobs = await Job.findByExperience(minExperience, maxExperience);
+    } else if (searchQuery) {
+      const searchPattern = `%${searchQuery}%`;
+      jobs = await Job.findByPositionName(searchPattern);
+    } else {
+      jobs = await Job.find();
+    }
+    res.json({ jobs });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch jobs" });
+  }
+};
+
+exports.getMatchesJob = async (req, res) => {
+  try {
+    console.log(req.user.id);
+    const jobs = await Job.findByMatches(req.user.id);
     res.json({ jobs });
   } catch (error) {
     console.error(error);

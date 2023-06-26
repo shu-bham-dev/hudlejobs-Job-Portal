@@ -21,6 +21,12 @@ router.get(
   jobController.getAllJobs
 ); //Get All Jobs
 
+router.get(
+  "/all/matches",
+  passport.authenticate("jwt", { session: false }),
+  jobController.getMatchesJob
+); //Get All Jobs according to skills
+
 router.delete(
   "/:jobId",
   passport.authenticate("jwt", { session: false }),

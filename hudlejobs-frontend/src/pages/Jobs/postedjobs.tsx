@@ -10,7 +10,7 @@ const PostedJob: React.FC = () => {
   return (
     <AppShell>
       <div className="bg-gray-700 text-white p-8">
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+        <div className="flex flex-col w-1/2 m-auto">
           {data?.jobs.map((job: any) => (
             <JobCard key={job.id} job={job} />
           ))}

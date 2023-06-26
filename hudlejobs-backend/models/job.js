@@ -71,6 +71,78 @@ const Job = {
       });
     });
   },
+  findByMatches: (userId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT j.id, j.positionName, j.createdDate,
+        (
+          SELECT COUNT(*) 
+          FROM JSON_TABLE(u.skills, "$[*]" COLUMNS(skill VARCHAR(255) PATH "$")) AS user_skills
+          WHERE JSON_CONTAINS(j.skills, JSON_ARRAY(user_skills.skill))
+        ) AS matching_skills_count
+        FROM jobs j
+        INNER JOIN users u ON u.id = ?
+        ORDER BY matching_skills_count DESC, j.createdDate DESC;
+      `;
+
+      db.query(query, [userId], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+  },
+  findByPositionName: (positionName) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT * FROM jobs WHERE positionName LIKE ?",
+        [positionName],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+        }
+      );
+    });
+  },
+  findByExperience: (minExperience, maxExperience) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT * FROM jobs WHERE experience >= ? AND experience < ?",
+        [minExperience, maxExperience],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+        }
+      );
+    });
+  },
+  findByPositionNameAndExperience: (
+    positionName,
+    minExperience,
+    maxExperience
+  ) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT * FROM jobs WHERE positionName LIKE ? AND experience >= ? AND experience < ?",
+        [positionName, minExperience, maxExperience],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(results);
+          }
+        }
+      );
+    });
+  },
 };
 
 module.exports = Job;
