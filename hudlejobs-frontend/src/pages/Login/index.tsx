@@ -7,7 +7,6 @@ import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import useRole from "../../hooks/useRole";
 
-// Define validation schema using Yup
 const validationSchema = yup.object().shape({
   email: yup
     .string()

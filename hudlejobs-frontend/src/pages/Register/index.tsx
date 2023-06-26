@@ -51,7 +51,7 @@ const Register: React.FC = () => {
       },
       onSuccess: (res: any) => {
         toast.success("Register Successfull");
-        navigate("/login");
+        navigate("/");
       },
     }
   );

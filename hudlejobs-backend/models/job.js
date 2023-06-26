@@ -126,6 +126,7 @@ const Job = {
         if (error) {
           reject(error);
         } else {
+          console.log(result);
           resolve(result[0]);
         }
       });

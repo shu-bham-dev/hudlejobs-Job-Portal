@@ -27,7 +27,7 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/all-job" element={<AllJobs />} />
             <Route path="/posted-job" element={<PostedJob />} />

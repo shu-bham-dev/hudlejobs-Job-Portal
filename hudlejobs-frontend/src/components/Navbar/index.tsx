@@ -6,12 +6,10 @@ import useRole from "../../hooks/useRole";
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
-    // Perform logout logic, such as clearing the token
     removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
   const { isAdmin } = useRole();
-  // console.log(window.location.pathname);
 
   return (
     <nav className="flex items-center justify-between bg-gray-900 p-4">

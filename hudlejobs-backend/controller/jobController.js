@@ -142,6 +142,7 @@ exports.applyForJob = async (req, res) => {
 
 exports.getJobById = async (req, res) => {
   const jobId = req.params.jobId;
+  console.log(jobId);
   try {
     const job = await Job.findJobById(jobId);
     if (job) {
