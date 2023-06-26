@@ -1,5 +1,6 @@
 const db = require("../config/db");
 const Job = require("../models/job");
+const User = require("../models/user");
 
 exports.createJob = async (req, res) => {
   const { role } = req.user;
@@ -49,6 +50,7 @@ exports.getAllJobs = async (req, res) => {
 
   try {
     let jobs;
+    const userId = req.user.id;
     if (searchQuery && experienceQuery) {
       const searchPattern = `%${searchQuery}%`;
       const minExperience = parseInt(experienceQuery);
@@ -68,11 +70,32 @@ exports.getAllJobs = async (req, res) => {
     } else {
       jobs = await Job.find();
     }
-    res.json({ jobs });
+
+    const userSkills = await User.getSkills(userId);
+    const matchedJobs = jobs.map((job) => {
+      const matchScore = calculateMatchScore(userSkills, job.skills);
+      return { ...job, matchScore };
+    });
+    const sortedJobs = matchedJobs.sort((a, b) => b.matchScore - a.matchScore);
+    res.json({ jobs: sortedJobs });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch jobs" });
   }
+};
+
+const calculateMatchScore = (userSkills, jobSkills) => {
+  let matchScore = 0;
+  const userArray = JSON.parse(userSkills);
+  const jobArray = JSON.parse(jobSkills);
+  for (const userSkill of userArray) {
+    console.log(jobArray, "---", userSkill);
+    if (jobArray.includes(userSkill)) {
+      matchScore++;
+    }
+  }
+  console.log(matchScore);
+  return matchScore;
 };
 
 exports.getMatchesJob = async (req, res) => {
@@ -107,7 +130,6 @@ exports.applyForJob = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    // Check if the job exists
     const jobQuery = "SELECT * FROM jobs WHERE id = ?";
     const jobRows = await db.query(jobQuery, [jobId]);
 
@@ -116,7 +138,6 @@ exports.applyForJob = async (req, res) => {
       throw new Error("Job not found");
     }
 
-    // Apply for the job
     const applyQuery =
       "INSERT INTO job_applications (user_id, job_id) VALUES (?, ?)";
     await db.query(applyQuery, [userId, jobId]);

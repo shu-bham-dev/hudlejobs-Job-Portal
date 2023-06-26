@@ -73,6 +73,22 @@ const User = {
       );
     });
   },
+  getSkills: (userId) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT skills FROM users WHERE id = ?",
+        [userId],
+        (error, results) => {
+          if (error) {
+            reject(error);
+          } else {
+            const userSkills = results[0]?.skills || [];
+            resolve(userSkills);
+          }
+        }
+      );
+    });
+  },
 };
 
 module.exports = User;

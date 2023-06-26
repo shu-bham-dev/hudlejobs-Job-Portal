@@ -103,6 +103,12 @@ const Login: React.FC = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
+        <div
+          className="text-white mt-4 cursor-pointer hover:text-blue-400"
+          onClick={() => navigate("/register")}
+        >
+          Register here{" "}
+        </div>
       </div>
     </div>
   );
