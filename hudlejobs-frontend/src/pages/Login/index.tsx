@@ -118,7 +118,7 @@ const Login: React.FC = () => {
         <div className="mt-2">
           <div>Admin Login</div>
           <div>Email: admin1@gmail.com</div>
-          <div>Password@1</div>
+          <div>Shubham@1</div>
         </div>
         <div className="mt-2">
           <div>Candidate Login</div>
