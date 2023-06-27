@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 // Define validation schema using Yup
 const validationSchema = yup.object().shape({
-  name: yup.string().min(3),
+  name: yup.string().required("Name is required").min(3),
   email: yup
     .string()
     .email("Invalid email address")
@@ -19,7 +19,7 @@ const validationSchema = yup.object().shape({
   skills: yup.array().min(1, "At least one skill is required"),
   confirmPassword: yup
     .string()
-    // .oneOf([yup.ref('password'), null], 'Passwords must match')
+    .oneOf([yup.ref("password")], "Passwords must match")
     .required("Confirm Password is required"),
 });
 
@@ -28,7 +28,7 @@ type RegisterFormValues = {
   email: string;
   password: string;
   phone: string;
-  skills: string[];
+  // skills: string[];
   confirmPassword: string;
 };
 
@@ -40,7 +40,7 @@ const Register: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormValues>({
-    // resolver: yupResolver(validationSchema),
+    resolver: yupResolver<RegisterFormValues>(validationSchema),
   });
 
   const registerMutation = useMutation(
@@ -161,11 +161,6 @@ const Register: React.FC = () => {
                 onKeyDown={handleAddSkill}
               />
             </div>
-            {errors.skills && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.skills.message}
-              </p>
-            )}
           </div>
           <div>
             <label htmlFor="password" className="text-gray-300">
@@ -195,6 +190,7 @@ const Register: React.FC = () => {
               className={`bg-gray-700 appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:border-blue-500 ${
                 errors.confirmPassword ? "border-red-500" : ""
               }`}
+              {...register("confirmPassword")}
             />
             {errors.confirmPassword && (
               <p className="text-red-500 text-sm mt-1">
