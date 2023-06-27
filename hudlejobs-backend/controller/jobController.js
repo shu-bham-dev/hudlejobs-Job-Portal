@@ -151,7 +151,7 @@ exports.getJobById = async (req, res) => {
       res.status(500).json({ message: "No job found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch job" });
+    res.status(500).json({ error: error.message });
   }
 };
 

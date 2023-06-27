@@ -1,7 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 import { isObject } from "lodash";
 
-const baseURL = "https://hudlejob-api.onrender.com";
+// const baseURL = "https://hudlejob-api.onrender.com";
+const baseURL = "http://localhost:4000";
 
 class ApiService {
   session: AxiosInstance;
