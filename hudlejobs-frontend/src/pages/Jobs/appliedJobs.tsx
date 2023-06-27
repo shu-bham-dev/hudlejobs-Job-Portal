@@ -10,7 +10,7 @@ const AppliedJobs: React.FC = () => {
   return (
     <AppShell>
       <div className="bg-gray-700 text-white p-8">
-        <div className="flex flex-col w-1/2 m-auto">
+        <div className="flex flex-col lg:w-1/2 lg:m-auto sm:w-full sm:m-0">
           {data?.jobs.map((job: any) => (
             <JobCard key={job.id} job={job} />
           ))}

@@ -43,7 +43,7 @@ const JobDetail = () => {
   return (
     <AppShell>
       <div className="border-gray-800 p-4 h-screen mb-4 bg-gray-700 text-white">
-        <div className="w-1/2 m-auto p-20 bg-gray-900">
+        <div className="lg:p-20 m:p-10 bg-gray-900 lg:w-1/2 lg:m-auto sm:w-full sm:m-0">
           <h2 className="text-xl font-semibold">{JobById?.positionName}</h2>
           <p className="text-gray-400 mb-2">{JobById?.companyName}</p>
           <p className="text-gray-400 mb-2">
