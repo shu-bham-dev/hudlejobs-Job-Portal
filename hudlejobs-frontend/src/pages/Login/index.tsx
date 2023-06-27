@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import useAuth from "../../hooks/useAuth";
 import useRole from "../../hooks/useRole";
+import { ToastContainer, toast } from "react-toastify";
 
 const validationSchema = yup.object().shape({
   email: yup
@@ -36,10 +37,11 @@ const Login: React.FC = () => {
     (formData: LoginFormValues) => login(formData),
     {
       onError: (err: any) => {
+        toast.error("Invalid Credentials");
         console.log(err.message);
       },
       onSuccess: (res: any) => {
-        if (isCandidate) {
+        if (res.user.role === "CANDIDATE") {
           navigate("/all-job");
         } else {
           navigate("/posted-job");
@@ -100,9 +102,8 @@ const Login: React.FC = () => {
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-            disabled={loading}
           >
-            {loading ? "Logging in..." : "Login"}
+            Login
           </button>
         </form>
         <div
@@ -125,6 +126,18 @@ const Login: React.FC = () => {
           <div>Candidate@1</div>
         </div>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };
