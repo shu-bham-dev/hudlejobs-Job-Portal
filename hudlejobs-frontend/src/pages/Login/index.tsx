@@ -54,7 +54,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-900">
+    <div className="flex justify-center items-center h-screen bg-gray-900 flex-col">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
         <div className="text-center text-xl text-white mb-10">
           Welcome to Hudle Jobs
@@ -110,6 +110,19 @@ const Login: React.FC = () => {
           onClick={() => navigate("/register")}
         >
           Register here{" "}
+        </div>
+      </div>
+      <div className="text-xs text-white ml-4 bg-gray-500 mt-6">
+        <div>Sample login</div>
+        <div className="mt-2">
+          <div>Admin Login</div>
+          <div>Email: admin1@gmail.com</div>
+          <div>Password@1</div>
+        </div>
+        <div className="mt-2">
+          <div>Candidate Login</div>
+          <div>Email: candidate1@gmail.com</div>
+          <div>Candidate@1</div>
         </div>
       </div>
     </div>
