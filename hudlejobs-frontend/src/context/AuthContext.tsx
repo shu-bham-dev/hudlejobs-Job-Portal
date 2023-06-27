@@ -79,7 +79,7 @@ const AuthProvider: React.FC<AppProps> = ({ children }) => {
       setUser(d);
     } catch (error) {
       localStorage.removeItem("token");
-      return navigate("/login");
+      return navigate("/");
     }
   };
   return (
