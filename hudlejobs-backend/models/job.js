@@ -122,7 +122,7 @@ const Job = {
   },
   findJobById: (userId) => {
     return new Promise((resolve, reject) => {
-      db.query("SELECT * FROM JOBS WHERE id=?", [userId], (error, result) => {
+      db.query("SELECT * FROM jobs WHERE id=?", [userId], (error, result) => {
         if (error) {
           reject(error);
         } else {
