@@ -137,30 +137,19 @@ const Register: React.FC = () => {
             <label htmlFor="skills" className="text-gray-300">
               Skills
             </label>
-            <div className="bg-gray-700 appearance-none border border-gray-700 rounded w-full py-2 px-3 text-gray-300 flex flex-wrap gap-2 items-center">
+            <div className="bg-gray-200 appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:bg-white">
               {skills.map((skill) => (
                 <div
                   key={skill}
-                  className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
+                  className="inline-block bg-gray-300 rounded px-2 py-1 text-sm mr-2 mb-2"
                 >
                   {skill}
                   <button
                     type="button"
-                    className="ml-2"
+                    className="ml-2 text-red-600"
                     onClick={() => handleRemoveSkill(skill)}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 text-red-500 hover:text-red-600 cursor-pointer"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 2a8 8 0 100 16A8 8 0 0010 2zM4.293 5.293a1 1 0 00-1.414 1.414L8.586 11l-5.707 5.293a1 1 0 101.414 1.414L10 12.414l5.293 5.707a1 1 0 001.414-1.414L11.414 11l5.707-5.293a1 1 0 10-1.414-1.414L10 9.586 4.707 4.293z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+                    X
                   </button>
                 </div>
               ))}
