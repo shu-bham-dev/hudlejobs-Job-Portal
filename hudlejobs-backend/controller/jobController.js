@@ -54,16 +54,13 @@ exports.getAllJobs = async (req, res) => {
     if (searchQuery && experienceQuery) {
       const searchPattern = `%${searchQuery}%`;
       const minExperience = parseInt(experienceQuery);
-      const maxExperience = minExperience + 1;
       jobs = await Job.findByPositionNameAndExperience(
         searchPattern,
-        minExperience,
-        maxExperience
+        minExperience
       );
     } else if (experienceQuery) {
       const minExperience = parseInt(experienceQuery);
-      const maxExperience = minExperience + 1;
-      jobs = await Job.findByExperience(minExperience, maxExperience);
+      jobs = await Job.findByExperience(minExperience);
     } else if (searchQuery) {
       const searchPattern = `%${searchQuery}%`;
       jobs = await Job.findByPositionName(searchPattern);

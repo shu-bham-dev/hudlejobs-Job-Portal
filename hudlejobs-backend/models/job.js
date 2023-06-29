@@ -86,11 +86,11 @@ const Job = {
       );
     });
   },
-  findByExperience: (minExperience, maxExperience) => {
+  findByExperience: (minExperience) => {
     return new Promise((resolve, reject) => {
       db.query(
-        "SELECT * FROM jobs WHERE experience >= ? AND experience < ?",
-        [minExperience, maxExperience],
+        "SELECT * FROM jobs WHERE experience >= ?",
+        [minExperience],
         (error, results) => {
           if (error) {
             reject(error);
@@ -101,15 +101,11 @@ const Job = {
       );
     });
   },
-  findByPositionNameAndExperience: (
-    positionName,
-    minExperience,
-    maxExperience
-  ) => {
+  findByPositionNameAndExperience: (positionName, minExperience) => {
     return new Promise((resolve, reject) => {
       db.query(
-        "SELECT * FROM jobs WHERE positionName LIKE ? AND experience >= ? AND experience < ?",
-        [positionName, minExperience, maxExperience],
+        "SELECT * FROM jobs WHERE positionName LIKE ? AND experience >= ?",
+        [positionName, minExperience],
         (error, results) => {
           if (error) {
             reject(error);

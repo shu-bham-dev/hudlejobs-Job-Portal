@@ -35,8 +35,6 @@ const AuthProvider: React.FC<AppProps> = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const searchParams = new URLSearchParams(window.location.search);
-  const authToken = searchParams.get("token");
 
   const login = async (formData: IForm) => {
     const response = await loginAccount(formData);
@@ -48,12 +46,6 @@ const AuthProvider: React.FC<AppProps> = ({ children }) => {
     return null;
   };
 
-  const setAuthToken = async (token: string) => {
-    setItem("token", token);
-    apiService.setTokenGenerator(token);
-    fetchCurrentUser();
-    return null;
-  };
   useEffect(() => {
     const token = getItem("token");
     if (token) {
@@ -67,7 +59,6 @@ const AuthProvider: React.FC<AppProps> = ({ children }) => {
     const token = getItem("token");
     if (token) {
       fetchCurrentUser();
-    } else if (!authToken) {
     }
     setLoading(false);
   }, []);
@@ -82,10 +73,9 @@ const AuthProvider: React.FC<AppProps> = ({ children }) => {
       return navigate("/");
     }
   };
+
   return (
-    <AuthContext.Provider
-      value={{ user, setUser, login, setAuthToken, fetchCurrentUser }}
-    >
+    <AuthContext.Provider value={{ user, login }}>
       {children}
     </AuthContext.Provider>
   );
